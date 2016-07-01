@@ -83,14 +83,14 @@ namespace XACache
         {
             try
             {
-                var funcName = String.Format("{0}.{1}", func.Target, func.Method);
+                var funcName = $"{func.Target}.{func.Method}";
                 var argsStr = string.Empty;
                 foreach (var param in paramList)
                 {
-                    var valueType = param == null ? "NULL" : param.GetType().ToString();
-                    argsStr += String.Format("[{0}:{1}]", valueType, JsonConvert.SerializeObject(param));
+                    var valueType = param?.GetType().ToString() ?? "NULL";
+                    argsStr += $"[{valueType}:{JsonConvert.SerializeObject(param)}]";
                 }
-                return CalculateMd5Hash(string.Format("{0}{1}", funcName, argsStr));
+                return CalculateMd5Hash($"{funcName}{argsStr}");
             }
             catch (Exception ex)
             {
